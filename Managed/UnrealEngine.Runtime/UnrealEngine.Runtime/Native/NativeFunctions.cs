@@ -117,7 +117,7 @@ namespace UnrealEngine.Runtime.Native
                         var path = Path.Combine(rootPath, args.Name);
                         if (File.Exists(path))
                         {
-                            return Assembly.LoadFile(path);
+                            return Assembly.LoadFrom(path);
                         }
                         return null;
                     };
