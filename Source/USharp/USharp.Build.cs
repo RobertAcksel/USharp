@@ -214,58 +214,56 @@ namespace UnrealBuildTool.Rules
 						{
 							line = line.Substring(packagePrefix.Length).Trim();
 
-							switch (line.ToLower())
-							{
-								case "mono":
-									copyMono = true;
-									break;
-								case "coreclr":
-									copyCoreCLR = true;
-									break;
-								case "clean":
-									cleanRuntimeFolders = true;
-									break;
-							}
-						}
-					}
-				}
-
-				//switch (Target.Platform)
-				//{
-				//	case UnrealTargetPlatform.Android:
-				//		// Mono is currently the only supported runtime on Android. Ensure that it gets packaged.
-				//		copyMono = true;
-				//		copyCoreCLR = false;
-				//		break;
-				//}
-
-				if (copyMono && !Directory.Exists(sourceMonoDir))
-				{
-					copyMono = false;
-				}
-
-				if (copyCoreCLR && !Directory.Exists(sourceCoreCLRDir))
-				{
-					copyCoreCLR = false;
-				}
-
-				if (Target.Platform == UnrealTargetPlatform.Android)
-				{
-					// We need to store a file list somewhere as there are issues with traversing the folder hierarchy
-					// (both the .obb file structure and the .apk file structure have issues with traversal)
-
-					// NOTE: There is currently a crash loading files outside of the obb (FFileHelper::LoadFileToStringArray / FFileHelper::LoadFileToArray)
-					bool storeInObb = true;
-
-					StringBuilder fileListStr = new StringBuilder();
-					Uri rootRelativeDir = new Uri(Path.GetFullPath(Path.Combine(projectDir, "Binaries", "Managed", "_")), UriKind.Absolute);
-					foreach (string file in GetAllFiles(new DirectoryInfo(managedBinDir), "Runtimes"))
-					{
-						string relativePath = rootRelativeDir.MakeRelativeUri(new Uri(file, UriKind.Absolute)).ToString();
-						fileListStr.Append(relativePath + "\n");
-					}
-					// Not needed until .NET Core is supported
-					/*if ((copyMono || copyCoreCLR) && File.Exists(sourceRuntimesFile))
+                            switch (line.ToLower())
+                            {
+                                case "mono":
+                                    copyMono = true;
+                                    break;
+                                case "coreclr":
+                                    copyCoreCLR = true;
+                                    break;
+                                case "clean":
+                                    cleanRuntimeFolders = true;
+                                    break;
+                            }
+                        }
+                    }
+                }
+                
+                if (Target.Platform == UnrealTargetPlatform.Android)
+                {
+                    // Mono is currently the only supported runtime on Android. Ensure that it gets packaged.
+                    copyMono = true;
+                    copyCoreCLR = false;
+                }
+                
+                if (copyMono && !Directory.Exists(sourceMonoDir))
+                {
+                    copyMono = false;
+                }
+                
+                if (copyCoreCLR && !Directory.Exists(sourceCoreCLRDir))
+                {
+                    copyCoreCLR = false;
+                }
+                
+                if (Target.Platform == UnrealTargetPlatform.Android)
+                {
+                    // We need to store a file list somewhere as there are issues with traversing the folder hierarchy
+                    // (both the .obb file structure and the .apk file structure have issues with traversal)
+                    
+                    // NOTE: There is currently a crash loading files outside of the obb (FFileHelper::LoadFileToStringArray / FFileHelper::LoadFileToArray)
+                    bool storeInObb = true;
+                    
+                    StringBuilder fileListStr = new StringBuilder();
+                    Uri rootRelativeDir = new Uri(Path.GetFullPath(Path.Combine(projectDir, "Binaries", "Managed", "_")), UriKind.Absolute);
+                    foreach (string file in GetAllFiles(new DirectoryInfo(managedBinDir), "Runtimes"))
+                    {
+                        string relativePath = rootRelativeDir.MakeRelativeUri(new Uri(file, UriKind.Absolute)).ToString();
+                        fileListStr.Append(relativePath + "\n");
+                    }
+                    // Not needed until .NET Core is supported
+                    /*if ((copyMono || copyCoreCLR) && File.Exists(sourceRuntimesFile))
                     {
                         string relativePath = rootRelativeDir.MakeRelativeUri(new Uri(sourceRuntimesFile, UriKind.Absolute)).ToString();
                         fileListStr.Append(relativePath + "\n");
