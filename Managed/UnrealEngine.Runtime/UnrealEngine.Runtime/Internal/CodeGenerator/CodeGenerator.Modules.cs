@@ -214,6 +214,11 @@ namespace UnrealEngine.Runtime
                     {
                         continue;
                     }
+                    // 忽略生成USharp模块
+                    else if (moduleInfo.Name == CodeGeneratorSettings.ModuleName)
+                    {
+                        continue;
+                    }
 
                     List<UStruct> structs;
                     if (!structsByPackage.TryGetValue(package, out structs))
