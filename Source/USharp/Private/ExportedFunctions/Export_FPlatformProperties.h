@@ -55,7 +55,7 @@ CSEXPORT csbool CSCONV Export_FPlatformProperties_RequiresCookedData()
 
 CSEXPORT csbool CSCONV Export_FPlatformProperties_SupportsBuildTarget(int32 BuildTarget)
 {
-	return FPlatformProperties::SupportsBuildTarget((EBuildTargets::Type)BuildTarget);
+	return FPlatformProperties::SupportsBuildTarget((EBuildTargetType)BuildTarget);
 }
 
 CSEXPORT csbool CSCONV Export_FPlatformProperties_SupportsAutoSDK()
