@@ -124,7 +124,7 @@ namespace UnrealBuildTool.Rules
                 }
             }
             
-            if (Target.Type == TargetType.Game && Target.ProjectFile != null)
+            if (Target.Type == TargetType.Game || Target.Type == TargetType.Server && Target.ProjectFile != null)
             {
                 // If this is a packaged build set up the /Managed/ folders
                 SetupManagedPaths();
