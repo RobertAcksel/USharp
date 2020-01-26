@@ -124,7 +124,7 @@ namespace UnrealBuildTool.Rules
                 }
             }
             
-            if (Target.Type == TargetType.Game || Target.Type == TargetType.Server && Target.ProjectFile != null)
+            if ((Target.Type == TargetType.Game || Target.Type == TargetType.Server) && Target.ProjectFile != null)
             {
                 // If this is a packaged build set up the /Managed/ folders
                 SetupManagedPaths();
@@ -162,8 +162,12 @@ namespace UnrealBuildTool.Rules
 
         private void SetupManagedPaths()
         {
-            // Target the game project directory
-            string projectFile = Target.ProjectFile.FullName;
+			// Target the game project directory
+			if (Target == null)
+				throw new Exception("Target Is Null!!");
+			if (Target.ProjectFile == null)
+				throw new Exception("Project File Is Null!!");
+			string projectFile = Target.ProjectFile.FullName;
             if (File.Exists(projectFile) && Path.GetExtension(projectFile) == ".uproject" && Directory.Exists(ModuleDirectory))
             {
                 // USharp paths (engine plugins folder)
