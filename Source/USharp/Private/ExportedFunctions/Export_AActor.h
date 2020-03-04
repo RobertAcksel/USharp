@@ -43,7 +43,7 @@ CSEXPORT ULevel* CSCONV Export_AActor_GetLevel(AActor* instance)
 
 CSEXPORT void CSCONV Export_AActor_GetComponentsByClass(AActor* instance, UClass* ComponentClass, TArray<UActorComponent*>& result)
 {
-	result = instance->GetComponentsByClass(ComponentClass);
+	instance->GetComponents(ComponentClass, result);
 }
 
 CSEXPORT void CSCONV Export_AActor_GetComponentsByTag(AActor* instance, UClass* ComponentClass, FName& Tag, TArray<UActorComponent*>& result)

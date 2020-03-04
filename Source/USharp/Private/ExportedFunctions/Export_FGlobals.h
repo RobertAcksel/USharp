@@ -185,12 +185,15 @@ CSEXPORT csbool CSCONV Export_FGlobals_Get_GIsGuarded()
 
 CSEXPORT csbool CSCONV Export_FGlobals_Get_GIsRequestingExit()
 {
-	return GIsRequestingExit;
+	return IsEngineExitRequested();
 }
 
 CSEXPORT void CSCONV Export_FGlobals_Set_GIsRequestingExit(csbool Value)
 {
-	GIsRequestingExit = !!Value;
+	if (Value)
+	{
+		RequestEngineExit(TEXT("USharp RequestingExit"));
+	}
 }
 
 CSEXPORT csbool CSCONV Export_FGlobals_Get_GAreScreenMessagesEnabled()
