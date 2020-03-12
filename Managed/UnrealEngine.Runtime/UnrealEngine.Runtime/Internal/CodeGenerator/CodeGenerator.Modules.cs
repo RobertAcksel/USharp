@@ -62,7 +62,7 @@ namespace UnrealEngine.Runtime
         }
 
         public void GenerateCodeForAllModules()
-        {            
+        {
             GenerateCodeForModules(new UnrealModuleType[]
                 {
                     UnrealModuleType.Game,
@@ -186,7 +186,7 @@ namespace UnrealEngine.Runtime
                     }
                 }
             }
-            
+
 
             IPlugin[] plugins = IPluginManager.Instance.GetDiscoveredPlugins();
 
@@ -354,7 +354,8 @@ namespace UnrealEngine.Runtime
                 GenerateCodeForStruct(module, unrealStruct);
             }
 
-            GenerateCodeForEnums(module, enums, Settings.MergeEnumFiles);
+            //if (module.Name != "GameServer")
+                GenerateCodeForEnums(module, enums, Settings.MergeEnumFiles);
 
             EndGenerateModule(module);
 
@@ -746,8 +747,9 @@ namespace UnrealEngine.Runtime
                                 }
                             }
 
-                            if (FPaths.IsSameOrSubDirectory(FPaths.ProjectDir, moduleDir) &&
-                                moduleName.Equals(FApp.GetProjectName(), StringComparison.OrdinalIgnoreCase))
+                            if (FPaths.IsSameOrSubDirectory(FPaths.ProjectDir, moduleDir)
+                                //&& moduleName.Equals(FApp.GetProjectName(), StringComparison.OrdinalIgnoreCase)
+                                )
                             {
                                 return UnrealModuleType.Game;
                             }

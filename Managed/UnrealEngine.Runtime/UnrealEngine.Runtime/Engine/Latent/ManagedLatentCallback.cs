@@ -74,6 +74,8 @@ namespace UnrealEngine.Engine
             Runtime.UClass unrealClass = Runtime.UClass.GetClass(classPath);
             Debug.Assert(unrealClass != null);
             Type type = Runtime.UClass.GetType(unrealClass);
+            if (type == null)
+                return;
             Debug.Assert(type != null);
 
             BindingFlags bindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.NonPublic;

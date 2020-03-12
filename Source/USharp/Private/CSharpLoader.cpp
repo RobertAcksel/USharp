@@ -56,63 +56,63 @@ typedef int32 gint32;
 
 struct _MonoObject
 {
-	void *vtable;
-	void *synchronisation;
+	void* vtable;
+	void* synchronisation;
 };
 
 struct MonoException
 {
 	_MonoObject object;
-	MonoString *class_name;
-	MonoString *message;
-	MonoObject *_data;
-	MonoObject *inner_ex;
-	MonoString *help_link;
+	MonoString* class_name;
+	MonoString* message;
+	MonoObject* _data;
+	MonoObject* inner_ex;
+	MonoString* help_link;
 	/* Stores the IPs and the generic sharing infos
 	(vtable/MRGCTX) of the frames. */
-	MonoArray  *trace_ips;
-	MonoString *stack_trace;
-	MonoString *remote_stack_trace;
+	MonoArray* trace_ips;
+	MonoString* stack_trace;
+	MonoString* remote_stack_trace;
 	gint32	    remote_stack_index;
 	/* Dynamic methods referenced by the stack trace */
-	MonoObject *dynamic_methods;
+	MonoObject* dynamic_methods;
 	gint32	    hresult;
-	MonoString *source;
-	MonoObject *serialization_manager;
-	MonoObject *captured_traces;
-	MonoArray  *native_trace_ips;
+	MonoString* source;
+	MonoObject* serialization_manager;
+	MonoObject* captured_traces;
+	MonoArray* native_trace_ips;
 	gint32 caught_in_unmanaged;
 };
 
 typedef void(*MonoPrintCallback)(const char* str, mono_bool is_stdout);
 typedef void(*MonoLogCallback)(const char* log_domain, const char* log_level, const char* message, mono_bool fatal, void* user_data);
-typedef void*(*MonoDlFallbackLoad) (const char *name, int flags, char **err, void *user_data);
-typedef void*(*MonoDlFallbackSymbol) (void *handle, const char *name, char **err, void *user_data);
-typedef void*(*MonoDlFallbackClose) (void *handle, void *user_data);
+typedef void* (*MonoDlFallbackLoad) (const char* name, int flags, char** err, void* user_data);
+typedef void* (*MonoDlFallbackSymbol) (void* handle, const char* name, char** err, void* user_data);
+typedef void* (*MonoDlFallbackClose) (void* handle, void* user_data);
 
 typedef void(*import__mono_config_parse)(const char* filename);
-typedef void(*import__mono_domain_set_config)(MonoDomain *domain, const char* base_dir, const char* config_file_name);
+typedef void(*import__mono_domain_set_config)(MonoDomain* domain, const char* base_dir, const char* config_file_name);
 typedef void(*import__mono_set_dirs)(const char* assembly_dir, const char* config_dir);
 typedef void(*import__mono_debug_init)(MonoDebugFormat format);
-typedef MonoDomain*(*import__mono_jit_init_version)(const char* domain_name, const char* runtime_version);
-typedef MonoDomain*(*import__mono_jit_init)(const char* file);
+typedef MonoDomain* (*import__mono_jit_init_version)(const char* domain_name, const char* runtime_version);
+typedef MonoDomain* (*import__mono_jit_init)(const char* file);
 typedef void(*import__mono_jit_cleanup)(MonoDomain* domain);
-typedef MonoAssembly*(*import__mono_domain_assembly_open)(MonoDomain* domain, const char* name);
-typedef MonoImage*(*import__mono_assembly_get_image)(MonoAssembly* assembly);
-typedef MonoMethodDesc*(*import__mono_method_desc_new)(const char* name, mono_bool include_namespace);
-typedef MonoMethod*(*import__mono_method_desc_search_in_image)(MonoMethodDesc* desc, MonoImage* image);
+typedef MonoAssembly* (*import__mono_domain_assembly_open)(MonoDomain* domain, const char* name);
+typedef MonoImage* (*import__mono_assembly_get_image)(MonoAssembly* assembly);
+typedef MonoMethodDesc* (*import__mono_method_desc_new)(const char* name, mono_bool include_namespace);
+typedef MonoMethod* (*import__mono_method_desc_search_in_image)(MonoMethodDesc* desc, MonoImage* image);
 typedef void(*import__mono_method_desc_free)(MonoMethodDesc* desc);
-typedef MonoObject*(*import__mono_runtime_invoke)(MonoMethod* method, void* obj, void** params, MonoException** exc);
-typedef void*(*import__mono_object_unbox)(MonoObject* obj);
-typedef MonoString*(*import__mono_string_new)(MonoDomain *domain, const char *text);
-typedef char*(*import__mono_string_to_utf8)(MonoString* string_obj);
+typedef MonoObject* (*import__mono_runtime_invoke)(MonoMethod* method, void* obj, void** params, MonoException** exc);
+typedef void* (*import__mono_object_unbox)(MonoObject* obj);
+typedef MonoString* (*import__mono_string_new)(MonoDomain* domain, const char* text);
+typedef char* (*import__mono_string_to_utf8)(MonoString* string_obj);
 typedef void(*import__mono_trace_init)();
 typedef void(*import__mono_trace_set_level_string)(const char* value);
 typedef void(*import__mono_trace_set_mask_string)(const char* value);
 typedef void(*import__mono_trace_set_log_handler)(MonoLogCallback callback, void* user_data);
 typedef void(*import__mono_trace_set_print_handler)(MonoPrintCallback callback);
 typedef void(*import__mono_trace_set_printerr_handler)(MonoPrintCallback callback);
-typedef void*(*import__mono_dl_fallback_register)(MonoDlFallbackLoad load_func, MonoDlFallbackSymbol symbol_func, MonoDlFallbackClose close_func, void *user_data);
+typedef void* (*import__mono_dl_fallback_register)(MonoDlFallbackLoad load_func, MonoDlFallbackSymbol symbol_func, MonoDlFallbackClose close_func, void* user_data);
 
 import__mono_config_parse mono_config_parse;
 import__mono_domain_set_config mono_domain_set_config;
@@ -269,7 +269,7 @@ void CSharpLoader::SetupPaths()
 
 	// Managed plugins should be under "/Binaries/Managed/"
 	csharpPaths.Add(ManagedBinDir);
-	
+
 	// Mono should be under "/Binaries/Managed/Runtimes/Mono/[PLATFORM]/bin/"
 	monoLibPaths.Add(FPaths::Combine(*ManagedBinDir, TEXT("Runtimes"), TEXT("Mono"), *GetPlatformString(), TEXT("bin")));
 	FString MonoInstallPath = FindMonoInstallPath();
@@ -277,7 +277,7 @@ void CSharpLoader::SetupPaths()
 	{
 		monoLibPaths.Add(MonoInstallPath);
 	}
-	
+
 	// CoreCLR should be under "/Binaries/Managed/Runtimes/CoreCLR/[PLATFORM]/"
 	coreCLRLibPaths.Add(FPaths::Combine(*ManagedBinDir, TEXT("Runtimes"), TEXT("CoreCLR"), *GetPlatformString()));
 	FString CoreCLRInstallPath = FindCoreCLRInstallPath();
@@ -300,11 +300,11 @@ void NormalizePlatformPath(FString& InPath)
 FString CSharpLoader::GetPlatformString()
 {
 #if PLATFORM_WINDOWS
-	#if PLATFORM_64BITS
-		return FString(TEXT("Win64"));
-	#else
-		return FString(TEXT("Win32"));
-	#endif
+#if PLATFORM_64BITS
+	return FString(TEXT("Win64"));
+#else
+	return FString(TEXT("Win32"));
+#endif
 #elif PLATFORM_LINUX
 	return FString(TEXT("Linux"));
 #elif PLATFORM_MAC
@@ -362,7 +362,7 @@ FString CSharpLoader::GetAssemblyPath(FString assemblyName)
 {
 	// TODO: Get the current path of the current plugin
 	// Get the managed assembly from that path
-	
+
 	for (FString path : csharpPaths)
 	{
 		FString assemblyPath = FPaths::Combine(*path, *assemblyName);
@@ -372,7 +372,7 @@ FString CSharpLoader::GetAssemblyPath(FString assemblyName)
 			return FPaths::ConvertRelativePathToFull(assemblyPath);
 		}
 	}
-	
+
 	return TEXT("");
 }
 
@@ -386,12 +386,12 @@ bool CSharpLoader::GetAssemblyPath(FString assemblyPath, FString& outAssemblyPat
 	if (!FPaths::FileExists(fullAssemblyPath))
 	{
 		if (showLoadError)
-		{		
+		{
 			FString searchPaths;
 			for (FString path : csharpPaths)
 			{
 				searchPaths += path + "\n";
-			}		
+			}
 			LogLoaderError(FString::Printf(TEXT("Couldn't find the assembly file: '%s'\nSearch paths:\n%s"), *assemblyPath, *searchPaths));
 		}
 		return false;
@@ -474,7 +474,7 @@ bool CSharpLoader::LoadRuntimeMono()
 	void* dllHandle = FPlatformProcess::GetDllHandle(*dllPath);
 	if (dllHandle == NULL)
 		return false;
-	
+
 #if !MONO_STATIC_LINK
 	mono_config_parse = (import__mono_config_parse)FPlatformProcess::GetDllExport(dllHandle, TEXT("mono_config_parse"));
 	mono_domain_set_config = (import__mono_domain_set_config)FPlatformProcess::GetDllExport(dllHandle, TEXT("mono_domain_set_config"));
@@ -558,7 +558,7 @@ bool CSharpLoader::LoadRuntimeMono()
 	mono_debug_init(MONO_DEBUG_FORMAT_MONO);
 #endif
 	mono_config_parse(NULL);
-	
+
 	monoDomain = (void*)mono_jit_init_version("DefaultDomain", TCHAR_TO_ANSI(*runtimeVersion));
 
 	// Workaround to avoid this exception:
@@ -645,11 +645,11 @@ bool CSharpLoader::LoadRuntimeCLR()
 		{
 			Result = runtimeInfo->BindAsLegacyV2Runtime();
 		}
-	}	
+	}
 	if (FAILED(Result))
 	{
 		return false;
-	}	
+	}
 
 	return true;
 #else
@@ -663,7 +663,7 @@ bool CSharpLoader::LoadRuntimes(bool loaderEnabled)
 	{
 		return true;
 	}
-	
+
 #if PLATFORM_LINUX
 	// Free up a signals for mono (FUnixPlatformMisc::SetCrashHandler ignores all signals it doesn't use)
 	// We always want to do this even if not running mono as we invoke mono/msbuild from C# (which inherits
@@ -764,13 +764,13 @@ bool CSharpLoader::Load(FString assemblyPath, FString customArgs, FString loader
 	{
 		entryPointMethodArg += TEXT("|") + customArgs;
 	}
-	
+
 	FString fullAssemblyPath = assemblyPath;
 	if (!GetAssemblyPath(fullAssemblyPath, fullAssemblyPath, true))
 	{
 		return false;
 	}
-	
+
 	if (loaderEnabled)
 	{
 		FString mainAssemblyPath = fullAssemblyPath;
@@ -805,7 +805,7 @@ bool CSharpLoader::Load(FString assemblyPath, FString customArgs, FString loader
 	if (RuntimeTypeHasFlag(runtimeState.InitializedRuntimes, EDotNetRuntime::CLR))
 	{
 		::DWORD retVal;
-		HRESULT hr = runtimeHost->ExecuteInDefaultAppDomain(TCHAR_TO_WCHAR(*fullAssemblyPath), TCHAR_TO_WCHAR(entryPointClass), 
+		HRESULT hr = runtimeHost->ExecuteInDefaultAppDomain(TCHAR_TO_WCHAR(*fullAssemblyPath), TCHAR_TO_WCHAR(entryPointClass),
 			TCHAR_TO_WCHAR(entryPointMethod), TCHAR_TO_WCHAR(*entryPointMethodArg), &retVal);
 		if (FAILED(hr) || retVal != 0)
 		{
@@ -936,7 +936,7 @@ bool CSharpLoader::Load(FString assemblyPath, FString customArgs, FString loader
 			return false;
 		}
 		mono_method_desc_free(methodDesc);
-		
+
 		void* args = { (void*)mono_string_new((MonoDomain*)monoDomain, TCHAR_TO_ANSI(*entryPointMethodArg)) };
 		MonoException* exception = NULL;
 		MonoObject* result = mono_runtime_invoke(method, NULL, &args, &exception);
@@ -950,9 +950,9 @@ bool CSharpLoader::Load(FString assemblyPath, FString customArgs, FString loader
 				exception = (MonoException*)exception->inner_ex;
 			}
 			OutputDebugStringA("\n");*/
-			
+
 			FString reason = GetLoadErrorReason(retVal);
-			
+
 			FString errorString = TEXT("Error on mono_runtime_invoke Reason: ");
 			errorString.Append(reason);
 			errorString.Append(TEXT("\n"));
@@ -978,13 +978,13 @@ FString CSharpLoader::GetLoadErrorReason(int32 retVal)
 {
 	switch (retVal)
 	{
-		case 1000: return TEXT("Main assembly path not provided");
-		case 1001: return TEXT("Couldn't find main assembly");
-		case 1002: return TEXT("Main assembly must be in a sub folder to the loader");
-		case 1003: return TEXT("Functions used to run the loader in the game thread are null");
-		case 1004: return TEXT("Failed to load the main assembly");
-		case 1005: return TEXT("An exception occured when calling the C# entry point function");
-		default: return TEXT("");
+	case 1000: return TEXT("Main assembly path not provided");
+	case 1001: return TEXT("Couldn't find main assembly");
+	case 1002: return TEXT("Main assembly must be in a sub folder to the loader");
+	case 1003: return TEXT("Functions used to run the loader in the game thread are null");
+	case 1004: return TEXT("Failed to load the main assembly");
+	case 1005: return TEXT("An exception occured when calling the C# entry point function");
+	default: return TEXT("");
 	}
 }
 
@@ -1011,13 +1011,13 @@ FString CSharpLoader::GetManagedBinariesDir()
 	{
 		return TargetDir;
 	}
-	
+
 	IFileManager& FileManager = IFileManager::Get();
 	int32 NumCopied = 0;
 	int32 NumCopyFailed = 0;
-	
+
 	FString SrcDir;
-	
+
 	// Safer to prepend the DllPathInAssetsFolder string with FString(FPlatformProcess::BaseDir())?
 	FString DllPathInAssetsFolder = FString(TEXT("Binaries")) / TEXT("Managed") / TEXT("UnrealEngine.Runtime.dll");
 	if (FPaths::FileExists(DllPathInAssetsFolder))
@@ -1031,7 +1031,7 @@ FString CSharpLoader::GetManagedBinariesDir()
 		// NOTE: 20tab's UnrealEnginePython implementation (which is based on FAndroidPlatformFile::Initialize?) does some additional .obb scanning. TODO: Look into.
 		SrcDir = FPaths::Combine(FPaths::ProjectDir(), TEXT("Binaries"), TEXT("Managed"));
 	}
-	
+
 	FString AndroidFileListFile = SrcDir / TEXT("AndroidFileList.txt");
 	if (FPaths::FileExists(AndroidFileListFile))
 	{
@@ -1062,12 +1062,12 @@ FString CSharpLoader::GetManagedBinariesDir()
 			}
 		}
 	}
-	
+
 	if (NumCopyFailed > 0)
 	{
 		LogLoaderError(FString::Printf(TEXT("Failed unpack USharp files. Copied:%d failed:%d"), NumCopied, NumCopyFailed));
 	}
-	
+
 	return TargetDir;
 #endif
 	// This gives up "/Binaries/XXXX/" where XXXX is the platform (Win32, Win64, Android, etc)
