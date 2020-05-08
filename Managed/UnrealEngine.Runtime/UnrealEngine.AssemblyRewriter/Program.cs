@@ -21,7 +21,7 @@ namespace UnrealEngine.Runtime
                 Console.Error.WriteLine("Error: No input files. Add file path to dll as argument.");
                 Environment.Exit(2);
             }
-        
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
@@ -137,7 +137,7 @@ namespace UnrealEngine.Runtime
                 }
 
                 stopwatch.Stop();
-                Console.WriteLine("Read \"" + assembly.GetName().Name + "\" " + stopwatch.Elapsed);
+                Console.WriteLine("Read \"" + assembly.GetName().Name + "\" " + stopwatch.Elapsed + " " + filePath + " Module: " + moduleInfo.AssemblyName);
 
                 if (moduleInfo != null)
                 {

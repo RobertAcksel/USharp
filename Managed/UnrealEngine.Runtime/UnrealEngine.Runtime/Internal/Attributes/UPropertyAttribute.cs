@@ -500,6 +500,15 @@ namespace UnrealEngine.Runtime
         }
     }
 
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public class SaveGameAttribute : ManagedUnrealAttributeBase
+    {
+        public override void ProcessProperty(ManagedUnrealPropertyInfo propertyInfo)
+        {
+            propertyInfo.Flags |= EPropertyFlags.SaveGame;
+        }
+    }
+
     // TODO: Also allow this on function parameters?
     /// <summary>
     /// 

@@ -58,7 +58,7 @@ namespace UnrealEngine.Runtime
         MethodReference intPtrConstructorMethod;
         MethodReference intPtrEqualsMethod;
         MethodReference intPtrNotEqualsMethod;
-        MethodReference typeGetTypeFromHandleMethod;        
+        MethodReference typeGetTypeFromHandleMethod;
         MethodReference checkUObjectDestroyedMethod;
         MethodReference uobjectAddressGetter;
         TypeReference sharpPathAttributeTypeRef;
@@ -220,7 +220,7 @@ namespace UnrealEngine.Runtime
                     }
                 }
             }
-            typeGetTypeFromHandleMethod = assembly.MainModule.ImportEx(typeof(Type).GetMethod("GetTypeFromHandle"));            
+            typeGetTypeFromHandleMethod = assembly.MainModule.ImportEx(typeof(Type).GetMethod("GetTypeFromHandle"));
             checkUObjectDestroyedMethod = assembly.MainModule.ImportEx(FindMethodByName(uobjectTypeRef.Resolve(), "CheckDestroyed"));
             uobjectAddressGetter = assembly.MainModule.ImportEx(FindPropertyByName(uobjectTypeRef.Resolve(), "Address").GetMethod);
 
@@ -450,7 +450,6 @@ namespace UnrealEngine.Runtime
             // - To fix this we save to a temp file. It has to use the exact same name as the original but with a 
             //   different extension otherwise Visual Studio will look for the temp name when trying to find the pdb
             string tempAssemblyPath = Path.ChangeExtension(assemblyPath, ".temp");
-
             try
             {
                 System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();

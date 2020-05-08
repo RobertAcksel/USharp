@@ -143,7 +143,7 @@ namespace UnrealEngine.Runtime
                 System.Diagnostics.Debug.WriteLine(error);
                 System.Diagnostics.Debug.Assert(false, error);
 #else
-                FMessage.OpenDialog(error);
+                //FMessage.OpenDialog(error);
 #endif
             }
         }

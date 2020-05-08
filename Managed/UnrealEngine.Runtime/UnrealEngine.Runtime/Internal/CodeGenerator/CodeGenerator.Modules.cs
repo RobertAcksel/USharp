@@ -62,7 +62,7 @@ namespace UnrealEngine.Runtime
         }
 
         public void GenerateCodeForAllModules()
-        {            
+        {
             GenerateCodeForModules(new UnrealModuleType[]
                 {
                     UnrealModuleType.Game,
@@ -186,7 +186,7 @@ namespace UnrealEngine.Runtime
                     }
                 }
             }
-            
+
 
             IPlugin[] plugins = IPluginManager.Instance.GetDiscoveredPlugins();
 
@@ -211,6 +211,11 @@ namespace UnrealEngine.Runtime
                     }
                     else if (!moduleTypes.Contains(moduleInfo.Type) || moduleNamesBlacklistToLower.Contains(moduleInfo.Name.ToLower()) ||
                         (moduleNamesWhitelistToLower.Count > 0 && !moduleNamesWhitelistToLower.Contains(moduleInfo.Name.ToLower())))
+                    {
+                        continue;
+                    }
+                    // 忽略生成USharp模块
+                    else if (moduleInfo.Name == CodeGeneratorSettings.ModuleName)
                     {
                         continue;
                     }
@@ -354,7 +359,8 @@ namespace UnrealEngine.Runtime
                 GenerateCodeForStruct(module, unrealStruct);
             }
 
-            GenerateCodeForEnums(module, enums, Settings.MergeEnumFiles);
+            //if (module.Name != "GameServer")
+                GenerateCodeForEnums(module, enums, Settings.MergeEnumFiles);
 
             EndGenerateModule(module);
 
@@ -746,8 +752,9 @@ namespace UnrealEngine.Runtime
                                 }
                             }
 
-                            if (FPaths.IsSameOrSubDirectory(FPaths.ProjectDir, moduleDir) &&
-                                moduleName.Equals(FApp.GetProjectName(), StringComparison.OrdinalIgnoreCase))
+                            if (FPaths.IsSameOrSubDirectory(FPaths.ProjectDir, moduleDir)
+                                //&& moduleName.Equals(FApp.GetProjectName(), StringComparison.OrdinalIgnoreCase)
+                                )
                             {
                                 return UnrealModuleType.Game;
                             }
